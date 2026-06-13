@@ -1,0 +1,192 @@
+syntax = "proto3";
+
+package project.v1;
+
+import "auth/v1/auth.proto";
+
+message Project {
+  string id = 1;
+  string name = 2;
+  optional string description = 3;
+  string created_at = 4;
+  string admin_id = 5;
+}
+
+message ProjectMember {
+  string id = 1;
+  string project_id = 2;
+  auth.v1.User user = 3;
+  string role = 4;
+  string joined_at = 5;
+}
+
+message ProjectInvite {
+  string id = 1;
+  string project_id = 2;
+  string project_name = 3;
+  string inviter_name = 4;
+  string status = 5;
+  string created_at = 6;
+}
+
+message Task {
+  string id = 1;
+  string project_id = 2;
+  string title = 3;
+  optional string description = 4;
+  optional string deadline = 5;
+  string status = 6;
+  string priority = 7;
+  optional string parent_id = 8;
+  string created_by_id = 9;
+  string created_at = 10;
+  repeated auth.v1.User assignees = 11;
+  repeated string depends_on_task_ids = 12; // Tasks this task depends on (blocks this task)
+}
+
+// Request & Response Messages
+
+message CreateProjectRequest {
+  string name = 1;
+  optional string description = 2;
+}
+
+message CreateProjectResponse {
+  Project project = 1;
+  string message = 2;
+}
+
+message ListProjectsRequest {}
+
+message ListProjectsResponse {
+  repeated Project projects = 1;
+}
+
+message SearchUsersRequest {
+  string query = 1; // username or name search query
+}
+
+message SearchUsersResponse {
+  repeated auth.v1.User users = 1;
+}
+
+message SendInviteRequest {
+  string project_id = 1;
+  string invitee_id = 2;
+}
+
+message SendInviteResponse {
+  string message = 1;
+}
+
+message ListInvitesRequest {}
+
+message ListInvitesResponse {
+  repeated ProjectInvite invites = 1;
+}
+
+message RespondToInviteRequest {
+  string invite_id = 1;
+  string action = 2; // "ACCEPT" or "DECLINE"
+}
+
+message RespondToInviteResponse {
+  string message = 1;
+}
+
+message CreateTaskRequest {
+  string project_id = 1;
+  string title = 2;
+  optional string description = 3;
+  optional string deadline = 4;
+  string priority = 5; // "LOW", "MEDIUM", "HIGH", "URGENT"
+  optional string parent_id = 6;
+  repeated string assignee_ids = 7;
+  repeated string depends_on_task_ids = 8;
+}
+
+message CreateTaskResponse {
+  Task task = 1;
+  string message = 2;
+}
+
+message UpdateTaskStatusRequest {
+  string task_id = 1;
+  string status = 2; // "BACKLOG", "TODO", "IN_PROGRESS", "IN_REVIEW", "DONE", "BLOCKED", "REJECTED"
+}
+
+message UpdateTaskStatusResponse {
+  Task task = 1;
+  string message = 2;
+}
+
+message AddTaskDependencyRequest {
+  string task_id = 1;
+  string depends_on_task_id = 2;
+}
+
+message AddTaskDependencyResponse {
+  string message = 1;
+}
+
+message GetProjectDetailsRequest {
+  string project_id = 1;
+}
+
+message GetProjectDetailsResponse {
+  Project project = 1;
+  repeated ProjectMember members = 2;
+  repeated Task tasks = 3;
+}
+
+message UpdateProjectRequest {
+  string id = 1;
+  string name = 2;
+  optional string description = 3;
+}
+
+message UpdateProjectResponse {
+  Project project = 1;
+  string message = 2;
+}
+
+message GetTaskDetailsRequest {
+  string task_id = 1;
+}
+
+message GetTaskDetailsResponse {
+  Task task = 2;
+}
+
+message UpdateTaskRequest {
+  string task_id = 1;
+  optional string title = 2;
+  optional string description = 3;
+  optional string deadline = 4;
+  optional string priority = 5;
+  optional string parent_id = 6;
+  repeated string assignee_ids = 7;
+  repeated string depends_on_task_ids = 8;
+  optional string status = 9;
+}
+
+message UpdateTaskResponse {
+  Task task = 1;
+  string message = 2;
+}
+
+service ProjectService {
+  rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse);
+  rpc ListProjects(ListProjectsRequest) returns (ListProjectsResponse);
+  rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse);
+  rpc SendInvite(SendInviteRequest) returns (SendInviteResponse);
+  rpc ListInvites(ListInvitesRequest) returns (ListInvitesResponse);
+  rpc RespondToInvite(RespondToInviteRequest) returns (RespondToInviteResponse);
+  rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse);
+  rpc UpdateTaskStatus(UpdateTaskStatusRequest) returns (UpdateTaskStatusResponse);
+  rpc AddTaskDependency(AddTaskDependencyRequest) returns (AddTaskDependencyResponse);
+  rpc GetProjectDetails(GetProjectDetailsRequest) returns (GetProjectDetailsResponse);
+  rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse);
+  rpc GetTaskDetails(GetTaskDetailsRequest) returns (GetTaskDetailsResponse);
+  rpc UpdateTask(UpdateTaskRequest) returns (UpdateTaskResponse);
+}

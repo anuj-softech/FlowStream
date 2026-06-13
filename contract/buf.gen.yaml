@@ -1,0 +1,15 @@
+version: v2
+clean: true
+inputs:
+  - directory: proto
+plugins:
+  - local: protoc-gen-es
+    out: backend/src/gen
+    opt:
+      - target=ts
+      - import_extension=js
+  - local: protoc-gen-es
+    out: frontend/src/lib/gen
+    opt:
+      - target=ts
+      - import_extension=js

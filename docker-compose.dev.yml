@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: flowstream-db-dev
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: node:22-alpine
+    container_name: flowstream-backend-dev
+    working_dir: /app
+    command: sh -c "corepack enable && if [ ! -f /app/node_modules/.install-complete ] || [ -n \"$$(find /app/pnpm-lock.yaml -newer /app/node_modules/.install-complete 2>/dev/null)\" ]; then pnpm install && touch /app/node_modules/.install-complete; fi && pnpm --filter backend db:migrate && pnpm --filter backend dev"
+    volumes:
+      - .:/app
+      - node_modules_shared:/app/node_modules
+      - backend_node_modules_shared:/app/backend/node_modules
+      - frontend_node_modules_shared:/app/frontend/node_modules
+    environment:
+      - PORT=${PORT}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: node:22-alpine
+    container_name: flowstream-frontend-dev
+    working_dir: /app
+    command: sh -c "corepack enable && while [ ! -f /app/node_modules/.install-complete ]; do sleep 1; done && pnpm --filter frontend dev --host 0.0.0.0"
+    volumes:
+      - .:/app
+      - node_modules_shared:/app/node_modules
+      - backend_node_modules_shared:/app/backend/node_modules
+      - frontend_node_modules_shared:/app/frontend/node_modules
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    container_name: flowstream-nginx-dev
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  postgres_data:
+  node_modules_shared:
+  backend_node_modules_shared:
+  frontend_node_modules_shared:

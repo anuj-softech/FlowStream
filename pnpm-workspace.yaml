@@ -1,0 +1,20 @@
+packages:
+  - "frontend"
+  - "backend"
+  - "contract"
+
+trustLockfile: true
+
+allowBuilds:
+  "@bufbuild/buf": true
+  "@prisma/engines": true
+  "esbuild": true
+  "prisma": true
+  "@tailwindcss/oxide": true
+
+onlyBuiltDependencies:
+  - '@prisma/engines'
+  - '@tailwindcss/oxide'
+  - esbuild
+  - prisma
+  - '@bufbuild/buf'

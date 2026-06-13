@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String   @id
+  email         String   @unique
+  username      String   @unique
+  passwordHash  String
+  name          String
+  profilePicUrl String?
+  profession    String?
+  mobileNumber  String?
+
+  // Relations
+  projectsOwned   Project[]        @relation("ProjectOwner")
+  memberships     ProjectMember[]
+  invitesSent     ProjectInvite[]  @relation("Inviter")
+  invitesReceived ProjectInvite[]  @relation("Invitee")
+  tasksCreated    Task[]           @relation("TaskCreator")
+  taskAssignments TaskAssignee[]
+}
+
+enum ProjectRole {
+  ADMIN
+  MEMBER
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+enum TaskStatus {
+  BACKLOG
+  TODO
+  IN_PROGRESS
+  IN_REVIEW
+  DONE
+  BLOCKED
+  REJECTED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Project {
+  id          String          @id
+  name        String
+  description String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  
+  // Owner/Creator
+  adminId     String
+  admin       User            @relation("ProjectOwner", fields: [adminId], references: [id], onDelete: Cascade)
+  
+  // Relations
+  members     ProjectMember[]
+  invites     ProjectInvite[]
+  tasks       Task[]
+}
+
+model ProjectMember {
+  id        String      @id
+  projectId String
+  project   Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      ProjectRole @default(MEMBER)
+  joinedAt  DateTime    @default(now())
+
+  @@unique([projectId, userId])
+}
+
+model ProjectInvite {
+  id         String       @id
+  projectId  String
+  project    Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  inviterId  String
+  inviter    User         @relation("Inviter", fields: [inviterId], references: [id], onDelete: Cascade)
+  inviteeId  String
+  invitee    User         @relation("Invitee", fields: [inviteeId], references: [id], onDelete: Cascade)
+  status     InviteStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+
+  @@unique([projectId, inviteeId])
+}
+
+model Task {
+  id          String       @id
+  projectId   String
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  deadline    DateTime?
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(MEDIUM)
+  
+  // Subtasks self-relation (parent-child hierachy)
+  parentId    String?
+  parent      Task?        @relation("Subtasks", fields: [parentId], references: [id], onDelete: Cascade)
+  subtasks    Task[]       @relation("Subtasks")
+  
+  // Creator
+  createdById String
+  createdBy   User         @relation("TaskCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Graph relations: Task Dependency (Directed Acyclic Graph)
+  dependencies TaskDependency[] @relation("TaskBlockedBy")
+  dependentOn  TaskDependency[] @relation("TaskBlocking")
+
+  // Assignees
+  assignees   TaskAssignee[]
+}
+
+model TaskDependency {
+  id              String @id
+  taskId          String
+  task            Task   @relation("TaskBlockedBy", fields: [taskId], references: [id], onDelete: Cascade)
+  dependsOnTaskId String
+  dependsOnTask   Task   @relation("TaskBlocking", fields: [dependsOnTaskId], references: [id], onDelete: Cascade)
+
+  @@unique([taskId, dependsOnTaskId])
+}
+
+model TaskAssignee {
+  id       String   @id
+  taskId   String
+  task     Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedAt DateTime @default(now())
+
+  @@unique([taskId, userId])
+}

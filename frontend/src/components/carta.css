@@ -1,0 +1,296 @@
+@import '@cartamd/plugin-slash/default.css';
+@import '@cartamd/plugin-emoji/default.css';
+@import '@cartamd/plugin-code/default.css';
+
+.carta-font-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+  letter-spacing: normal !important;
+}
+
+.carta-highlight {
+  color: var(--color-slate-900) !important;
+}
+.dark .carta-highlight {
+  color: var(--color-slate-100) !important;
+}
+.dark .carta-highlight * {
+  color: var(--color-slate-100) !important;
+}
+
+.dark .carta-theme__default {
+  --border-color: var(--color-slate-800) !important;
+  --selection-color: rgba(59, 130, 246, 0.2) !important;
+  --focus-outline: var(--color-primary-500) !important;
+  --hover-color: var(--color-slate-800) !important;
+  --caret-color: var(--color-slate-100) !important;
+  --text-color: var(--color-slate-100) !important;
+}
+
+.carta-editor {
+  border: 1px solid var(--color-slate-200) !important;
+  border-radius: 0.75rem !important;
+  background-color: var(--color-white) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+  width: 100% !important;
+}
+.dark .carta-editor {
+  border-color: var(--color-slate-800) !important;
+  background-color: var(--color-slate-900) !important;
+}
+.carta-editor:focus-within {
+  border-color: var(--color-primary-500) !important;
+  box-shadow: 0 0 0 1px var(--color-primary-500) !important;
+}
+.dark .carta-editor:focus-within {
+  border-color: var(--color-primary-400) !important;
+  box-shadow: 0 0 0 1px var(--color-primary-400) !important;
+}
+
+.carta-editor .carta-wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.carta-editor .carta-container {
+  margin: 0 !important;
+}
+.carta-editor .carta-container > * {
+  margin: 0 !important;
+}
+
+.carta-toolbar {
+  border-bottom: 1px solid var(--color-slate-200) !important;
+  background-color: var(--color-slate-50) !important;
+  padding: 0 12px !important;
+  height: 42px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+.dark .carta-toolbar {
+  border-bottom-color: var(--color-slate-800) !important;
+  background-color: var(--color-slate-950) !important;
+}
+
+.carta-toolbar button {
+  color: var(--color-slate-500) !important;
+  background-color: transparent !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  border: none !important;
+}
+.dark .carta-toolbar button {
+  color: var(--color-slate-400) !important;
+}
+
+.carta-toolbar button:not(.carta-toolbar-left button) {
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.carta-toolbar button:not(.carta-toolbar-left button):hover {
+  background-color: var(--color-slate-200) !important;
+  color: var(--color-slate-900) !important;
+}
+.dark .carta-toolbar button:not(.carta-toolbar-left button):hover {
+  background-color: var(--color-slate-800) !important;
+  color: var(--color-slate-100) !important;
+}
+
+.carta-toolbar-left {
+  display: flex !important;
+  align-items: flex-end !important;
+  height: 100% !important;
+  gap: 4px !important;
+}
+.carta-toolbar-left button {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-bottom: none !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding: 6px 14px !important;
+  margin-right: 0 !important;
+  margin-bottom: -1px !important;
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+}
+.carta-toolbar-left button:hover {
+  color: var(--color-slate-900) !important;
+  background-color: var(--color-slate-250) !important;
+}
+.dark .carta-toolbar-left button:hover {
+  color: var(--color-slate-100) !important;
+  background-color: var(--color-slate-800) !important;
+}
+
+.carta-toolbar-left button.carta-active {
+  background-color: var(--color-white) !important;
+  border-color: var(--color-slate-200) !important;
+  color: var(--color-slate-900) !important;
+  font-weight: 600 !important;
+}
+.dark .carta-toolbar-left button.carta-active {
+  background-color: var(--color-slate-900) !important;
+  border-color: var(--color-slate-800) !important;
+  color: var(--color-slate-100) !important;
+}
+
+.carta-input, .carta-renderer {
+  min-height: 200px !important;
+  max-height: 400px !important;
+  padding: 1rem 1.25rem !important;
+  font-size: 0.875rem !important;
+  box-sizing: border-box !important;
+}
+
+.carta-input {
+  background-color: transparent !important;
+}
+
+.carta-editor textarea {
+  background-color: transparent !important;
+  border: none !important;
+  color: transparent !important;
+  caret-color: var(--color-slate-900) !important;
+  width: 100% !important;
+  min-height: 180px !important;
+  max-height: 380px !important;
+  resize: vertical !important;
+  outline: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--color-slate-300) transparent !important;
+}
+.dark .carta-editor textarea {
+  caret-color: var(--color-slate-100) !important;
+  scrollbar-color: var(--color-slate-800) transparent !important;
+}
+.carta-editor textarea::placeholder {
+  color: var(--color-slate-400) !important;
+}
+.dark .carta-editor textarea::placeholder {
+  color: var(--color-slate-500) !important;
+}
+
+.carta-editor textarea::-webkit-scrollbar {
+  width: 6px;
+}
+.carta-editor textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+.carta-editor textarea::-webkit-scrollbar-thumb {
+  background-color: var(--color-slate-300);
+  border-radius: 9999px;
+}
+.dark .carta-editor textarea::-webkit-scrollbar-thumb {
+  background-color: var(--color-slate-800);
+}
+
+.carta-renderer {
+  background-color: transparent !important;
+  color: var(--color-slate-900) !important;
+  line-height: 1.625 !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--color-slate-300) transparent !important;
+}
+.dark .carta-renderer {
+  color: var(--color-slate-100) !important;
+  scrollbar-color: var(--color-slate-800) transparent !important;
+}
+.carta-renderer::-webkit-scrollbar {
+  width: 6px;
+}
+.carta-renderer::-webkit-scrollbar-track {
+  background: transparent;
+}
+.carta-renderer::-webkit-scrollbar-thumb {
+  background-color: var(--color-slate-350);
+  border-radius: 9999px;
+}
+.dark .carta-renderer::-webkit-scrollbar-thumb {
+  background-color: var(--color-slate-850);
+}
+
+.carta-renderer h1, .carta-renderer h2, .carta-renderer h3, .carta-renderer h4 {
+  font-family: var(--font-heading) !important;
+  font-weight: 700 !important;
+  color: var(--color-slate-900) !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.75rem !important;
+}
+.dark .carta-renderer h1, .dark .carta-renderer h2, .dark .carta-renderer h3, .dark .carta-renderer h4 {
+  color: #ffffff !important;
+}
+.carta-renderer h1 { font-size: 1.5rem !important; border-bottom: 1px solid var(--color-slate-200) !important; padding-bottom: 0.3rem !important; }
+.dark .carta-renderer h1 { border-bottom-color: var(--color-slate-800) !important; }
+.carta-renderer h2 { font-size: 1.25rem !important; }
+.carta-renderer h3 { font-size: 1.1rem !important; }
+.carta-renderer h4 { font-size: 0.95rem !important; }
+
+.carta-renderer p {
+  margin-bottom: 0.875rem !important;
+  line-height: 1.625 !important;
+}
+.carta-renderer ul, .carta-renderer ol {
+  padding-left: 1.5rem !important;
+  margin-bottom: 0.875rem !important;
+}
+.carta-renderer ul {
+  list-style-type: disc !important;
+}
+.carta-renderer ol {
+  list-style-type: decimal !important;
+}
+.carta-renderer li {
+  margin-bottom: 0.25rem !important;
+}
+.carta-renderer blockquote {
+  border-left: 4px solid var(--color-slate-300) !important;
+  padding-left: 1rem !important;
+  color: var(--color-slate-550) !important;
+  margin: 1rem 0 !important;
+}
+.dark .carta-renderer blockquote {
+  border-left-color: var(--color-slate-700) !important;
+  color: var(--color-slate-400) !important;
+}
+.carta-renderer pre {
+  background-color: var(--color-slate-100) !important;
+  border-radius: 8px !important;
+  padding: 0.875rem 1.125rem !important;
+  overflow-x: auto !important;
+  margin: 1rem 0 !important;
+}
+.dark .carta-renderer pre {
+  background-color: var(--color-slate-950) !important;
+}
+.carta-renderer code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.85em !important;
+  background-color: var(--color-slate-100) !important;
+  color: var(--color-slate-800) !important;
+  padding: 0.2em 0.4em !important;
+  border-radius: 6px !important;
+}
+.dark .carta-renderer code {
+  background-color: var(--color-slate-800) !important;
+  color: var(--color-slate-200) !important;
+}
+.carta-renderer pre code {
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  color: inherit !important;
+  font-size: 0.825rem !important;
+}

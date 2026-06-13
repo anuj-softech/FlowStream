@@ -1,0 +1,9 @@
+readme-local.md
+/.idea/
+.local/
+node_modules/
+dist/
+.env
+/node_modules/
+.pnpm-store/
+.pnpm/

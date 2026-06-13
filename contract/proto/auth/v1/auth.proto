@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package auth.v1;
+
+message User {
+  string id = 1;
+  string name = 2;
+  string username = 3;
+  string email = 4;
+  optional string profile_pic_url = 5;
+  optional string profession = 6;
+  optional string mobile_number = 7;
+  string date_created = 8;
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+  string name = 3;
+  string username = 4;
+  optional string profile_pic_url = 5;
+  optional string profession = 6;
+  optional string mobile_number = 7;
+}
+
+message RegisterResponse {
+  string message = 1;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+  string message = 2;
+}
+
+message LogoutRequest {}
+
+message LogoutResponse {
+  string message = 1;
+}
+
+message GetUserRequest {}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message UpdateInfoRequest {
+  optional string name = 1;
+  optional string username = 2;
+  optional string profile_pic_url = 3;
+  optional string profession = 4;
+  optional string mobile_number = 5;
+}
+
+message UpdateInfoResponse {
+  User user = 1;
+}
+
+message CheckUsernameRequest {
+  string username = 1;
+}
+
+message CheckUsernameResponse {
+  bool available = 2;
+}
+
+service AuthService {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Logout(LogoutRequest) returns (LogoutResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc UpdateInfo(UpdateInfoRequest) returns (UpdateInfoResponse);
+  rpc CheckUsername(CheckUsernameRequest) returns (CheckUsernameResponse);
+}
