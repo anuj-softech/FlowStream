@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package chatbot.v1;
+
+message ChatRequest {
+  string prompt = 1;
+}
+
+message ChatResponse {
+  string response_text = 1;
+}
+
+service ChatBotService {
+  rpc Chat(ChatRequest) returns (ChatResponse);
+}

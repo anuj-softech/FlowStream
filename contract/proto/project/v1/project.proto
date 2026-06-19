@@ -41,10 +41,9 @@ message Task {
   string created_by_id = 9;
   string created_at = 10;
   repeated auth.v1.User assignees = 11;
-  repeated string depends_on_task_ids = 12; // Tasks this task depends on (blocks this task)
+  repeated string depends_on_task_ids = 12;
 }
 
-// Request & Response Messages
 
 message CreateProjectRequest {
   string name = 1;
@@ -63,7 +62,7 @@ message ListProjectsResponse {
 }
 
 message SearchUsersRequest {
-  string query = 1; // username or name search query
+  string query = 1;
 }
 
 message SearchUsersResponse {
@@ -87,7 +86,7 @@ message ListInvitesResponse {
 
 message RespondToInviteRequest {
   string invite_id = 1;
-  string action = 2; // "ACCEPT" or "DECLINE"
+  string action = 2;
 }
 
 message RespondToInviteResponse {
@@ -99,7 +98,7 @@ message CreateTaskRequest {
   string title = 2;
   optional string description = 3;
   optional string deadline = 4;
-  string priority = 5; // "LOW", "MEDIUM", "HIGH", "URGENT"
+  string priority = 5;
   optional string parent_id = 6;
   repeated string assignee_ids = 7;
   repeated string depends_on_task_ids = 8;

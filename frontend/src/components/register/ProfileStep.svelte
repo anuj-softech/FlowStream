@@ -25,7 +25,7 @@
     <Input id="mobileNumber" label="Mobile Number (Optional)" type="tel" placeholder="+91 99999XXXXX" bind:value={mobileNumber} />
   </div>
 
-  <Input id="profilePicUrl" label="Profile Picture URL (Optional)" type="url" placeholder="Not Implemented" bind:value={profilePicUrl} />
+  <Input id="profilePicUrl"  class="hidden" label="Profile Picture URL (Optional)" type="url" placeholder="Not Implemented" bind:value={profilePicUrl} />
   
   <div class="grid grid-cols-2 gap-4 mt-4">
     <Button variant="outline" onclick={onBack} type="button">

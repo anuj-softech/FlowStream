@@ -10,7 +10,7 @@ if (existsSync(".env")) {
 }
 
 const connectionString: string = `${process.env.DATABASE_URL}`;
-console.log(`Connecting to database at: ${connectionString.split('@')[1] || connectionString}`);
+console.log(`Connecting to database`);
 
 const adapter: PrismaPg = new PrismaPg({ connectionString });
 const prisma: PrismaClient = new PrismaClient({ adapter });

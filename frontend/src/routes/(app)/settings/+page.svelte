@@ -156,7 +156,7 @@
               <Input id="editUsername" label="Username" required placeholder="johndoe" bind:value={editUsername} />
               <Input id="editProfession" label="Profession" placeholder="Software Engineer" bind:value={editProfession} />
               <Input id="editMobile" label="Mobile Number" placeholder="+1 (555) 000-0000" bind:value={editMobile} />
-              <Input id="editPicUrl" label="Profile Picture URL" placeholder="https://example.com/pic.jpg" bind:value={editPicUrl} />
+              <Input id="editPicUrl" label="Profile Picture URL" class="hidden" placeholder="https://example.com/pic.jpg" bind:value={editPicUrl} />
 
               <div class="flex gap-3 mt-2">
                 <Button type="submit" {loading} class="flex-1 font-bold">

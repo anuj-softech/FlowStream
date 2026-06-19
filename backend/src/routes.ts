@@ -1,6 +1,7 @@
 import { ConnectRouter } from "@connectrpc/connect";
 import { AuthService } from "./gen/auth/v1/auth_pb.js";
 import { ProjectService } from "./gen/project/v1/project_pb.js";
+import { ChatBotService } from "./gen/chatbot/v1/chatbot_pb.js";
 
 // Controllers
 import { register } from "./controllers/auth/register.js";
@@ -24,6 +25,7 @@ import {
   getTaskDetails,
   updateTask
 } from "./controllers/project/index.js";
+import { chat } from "./controllers/chatbot/index.js";
 
 // Middleware
 import { withAuth } from "./middleware/auth.js";
@@ -52,5 +54,9 @@ export default (router: ConnectRouter): void => {
     updateProject: withAuth(updateProject),
     getTaskDetails: withAuth(getTaskDetails),
     updateTask: withAuth(updateTask)
+  });
+
+  router.service(ChatBotService, {
+    chat: withAuth(chat)
   });
 };
