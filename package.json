@@ -11,8 +11,10 @@
     "test-backend": "pnpm --filter backend dev",
     "lint-backend": "pnpm --filter backend lint",
     "docker-dev": "docker compose -f docker-compose.dev.yml up",
-    "build-prod": "pnpm proto-gen && pnpm --filter backend db:generate && pnpm --filter backend build && pnpm --filter frontend build",
-    "deploy-prod": "cross-env NODE_ENV=production pnpm --filter backend start"
+    "npm-build-prod": "pnpm proto-gen && pnpm --filter backend db:generate && pnpm --filter backend build && pnpm --filter frontend build",
+    "build-prod": "pnpm run npm-build-prod",
+    "npm-deploy-prod": "npx prisma migrate deploy --schema=backend/schema/schema.prisma && cross-env NODE_ENV=production pnpm --filter backend start",
+    "deploy-prod": "pnpm run npm-deploy-prod"
   },
   "devDependencies": {
     "@bufbuild/buf": "^1.70.0",
