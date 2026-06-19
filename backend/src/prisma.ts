@@ -18,9 +18,9 @@ const prisma: PrismaClient = new PrismaClient({ adapter });
 async function testDbConnection() {
   try {
     await prisma.$queryRaw`SELECT 1`;
-    console.log("✅ Database connection established successfully.");
+    console.log("Database connection established successfully.");
   } catch (error) {
-    console.error("❌ Database connection failed on startup!");
+    console.error("Database connection failed on startup!");
     console.error(error);
   }
 }
