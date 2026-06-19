@@ -14,8 +14,14 @@ export async function createProject(
   ctx: AuthenticatedContext
 ): Promise<CreateProjectResponse> {
   const { name, description } = req;
-  if (!name) {
+  if (!name || !name.trim()) {
     throw new ConnectError("Project name is required", Code.InvalidArgument);
+  }
+  if (name.length > 100) {
+    throw new ConnectError("Project name cannot exceed 100 characters", Code.InvalidArgument);
+  }
+  if (description && description.length > 10000) {
+    throw new ConnectError("Project description cannot exceed 10000 characters", Code.InvalidArgument);
   }
 
   const projectId = generateUuidV7();

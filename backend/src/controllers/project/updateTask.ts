@@ -20,6 +20,19 @@ export async function updateTask(
         throw new ConnectError("Task ID is required", Code.InvalidArgument);
     }
 
+    if (title !== undefined) {
+        if (!title || !title.trim()) {
+            throw new ConnectError("Task title is required", Code.InvalidArgument);
+        }
+        if (title.length > 100) {
+            throw new ConnectError("Task title cannot exceed 100 characters", Code.InvalidArgument);
+        }
+    }
+
+    if (description !== undefined && description && description.length > 10000) {
+        throw new ConnectError("Task description cannot exceed 10000 characters", Code.InvalidArgument);
+    }
+
     const existingTask = await prisma.task.findUnique({
         where: {id: taskId}
     });

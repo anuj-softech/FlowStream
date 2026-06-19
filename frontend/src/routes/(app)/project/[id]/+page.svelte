@@ -89,6 +89,14 @@
       settingsError = "Project name is required";
       return;
     }
+    if (editName.length > 100) {
+      settingsError = "Project name cannot exceed 100 characters";
+      return;
+    }
+    if (editDescription.length > 10000) {
+      settingsError = "Project description cannot exceed 10000 characters";
+      return;
+    }
     savingSettings = true;
     settingsError = "";
     settingsSuccess = "";
@@ -250,7 +258,7 @@
       <button onclick={() => activeProjectTab = "dependencies"}
               class="px-5 py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-2 {activeProjectTab === 'dependencies' ? 'bg-white dark:bg-slate-900 shadow-sm text-primary-600 dark:text-primary-400' : 'text-slate-455 hover:text-slate-600 dark:hover:text-slate-200'}">
         <span class="material-symbols-rounded text-base">account_tree</span>
-        <span>Task Graph (DAG)</span>
+        <span>Tasks Graph</span>
       </button>
       {#if projectDetails.project.adminId === auth.currentUser?.id}
         <button onclick={() => activeProjectTab = "settings"}
@@ -560,6 +568,7 @@
               id="editProjectName"
               bind:value={editName}
               required
+              maxlength="100"
               placeholder="E.g. Rythm Music Player"
               class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500"
             />

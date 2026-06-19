@@ -62,6 +62,14 @@
       error = "Task title is required";
       return;
     }
+    if (title.length > 100) {
+      error = "Task title cannot exceed 100 characters";
+      return;
+    }
+    if (description.length > 10000) {
+      error = "Task description cannot exceed 10000 characters";
+      return;
+    }
     loading = true;
     error = "";
     try {
@@ -130,7 +138,7 @@
           </div>
         {/if}
 
-        <Input id="taskTitle" label="Task Title" required placeholder="E.g. Register RPC routes" bind:value={title} />
+        <Input id="taskTitle" label="Task Title" required placeholder="E.g. Register RPC routes" bind:value={title} maxlength={100} />
         
         <div class="flex flex-col gap-1.5">
           <label for="taskDesc" class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Description</label>

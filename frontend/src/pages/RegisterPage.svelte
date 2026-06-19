@@ -55,14 +55,18 @@
     }, 350);
     return () => clearTimeout(timer);
   });
-
   function isStep1Valid() {
     return (
       name.trim() !== "" &&
+      name.length <= 100 &&
       username.trim() !== "" &&
+      username.length <= 100 &&
       /^[a-z0-9]+$/.test(username) &&
       email.trim() !== "" &&
-      password.trim() !== "" &&
+      email.length <= 100 &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
+      password.length >= 8 &&
+      password.length <= 100 &&
       confirmPassword.trim() !== "" &&
       password === confirmPassword &&
       usernameAvailable === true &&
@@ -71,6 +75,30 @@
   }
 
   function handleNextStep() {
+    if (name.length > 100) {
+      formError = "Name cannot exceed 100 characters";
+      return;
+    }
+    if (username.length > 100) {
+      formError = "Username cannot exceed 100 characters";
+      return;
+    }
+    if (email.length > 100) {
+      formError = "Email cannot exceed 100 characters";
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      formError = "Invalid email format";
+      return;
+    }
+    if (password.length < 8) {
+      formError = "Password must be at least 8 characters long";
+      return;
+    }
+    if (password.length > 100) {
+      formError = "Password cannot exceed 100 characters";
+      return;
+    }
     if (!isStep1Valid()) {
       if (usernameAvailable === false) {
         formError = "Please select a different username";
@@ -96,6 +124,19 @@
     if (!isStep1Valid()) {
       currentStep = 1;
       formError = "Please fill in required credentials first";
+      return;
+    }
+
+    if (profession.length > 100) {
+      formError = "Profession cannot exceed 100 characters";
+      return;
+    }
+    if (mobileNumber.length > 100) {
+      formError = "Mobile number cannot exceed 100 characters";
+      return;
+    }
+    if (profilePicUrl.length > 10000) {
+      formError = "Profile picture URL cannot exceed 10000 characters";
       return;
     }
 

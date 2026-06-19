@@ -33,7 +33,7 @@
 
 <div class="flex flex-col gap-4">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <Input id="name" label="Full Name" required placeholder="Full name" bind:value={name} autocomplete="name" />
+    <Input id="name" label="Full Name" required placeholder="Full name" bind:value={name} maxlength={100} autocomplete="name" />
     
     <Input
       id="username"
@@ -41,17 +41,18 @@
       required
       placeholder="username"
       bind:value={username}
+      maxlength={100}
       autocomplete="username"
       error={usernameError || (usernameAvailable === false ? "Username is taken" : "")}
       success={usernameChecking ? "Checking availability..." : (usernameAvailable === true ? "Username is available" : "")}
     />
   </div>
 
-  <Input id="email" label="Email Address" type="email" required placeholder="name@domain.com" bind:value={email} autocomplete="email" />
+  <Input id="email" label="Email Address" type="email" required placeholder="name@domain.com" bind:value={email} maxlength={100} autocomplete="email" />
   
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <Input id="password" label="Password" type="password" required placeholder="••••••••" bind:value={password} allowPaste={false} autocomplete="new-password" />
-    <Input id="confirmPassword" label="Confirm Password" type="password" required placeholder="••••••••" bind:value={confirmPassword} error={confirmPasswordError} allowPaste={false} autocomplete="new-password" />
+    <Input id="password" label="Password" type="password" required placeholder="••••••••" bind:value={password} maxlength={100} allowPaste={false} autocomplete="new-password" />
+    <Input id="confirmPassword" label="Confirm Password" type="password" required placeholder="••••••••" bind:value={confirmPassword} maxlength={100} error={confirmPasswordError} allowPaste={false} autocomplete="new-password" />
   </div>
   
   <Button onclick={onNext} type="button" class="w-full mt-4" disabled={!isStep1Valid()}>

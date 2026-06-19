@@ -36,6 +36,14 @@
       error = "Project name is required";
       return;
     }
+    if (name.length > 100) {
+      error = "Project name cannot exceed 100 characters";
+      return;
+    }
+    if (description.length > 10000) {
+      error = "Project description cannot exceed 10000 characters";
+      return;
+    }
     loading = true;
     error = "";
     try {
@@ -76,7 +84,7 @@
     {/if}
 
     <form onsubmit={handleFormSubmit} class="flex flex-col gap-5">
-      <Input id="newProjName" label="Project Name" required placeholder="E.g. Web App Redesign" bind:value={name} />
+      <Input id="newProjName" label="Project Name" required placeholder="E.g. Web App Redesign" bind:value={name} maxlength={100} />
       
       <div class="flex flex-col gap-1.5">
         <label for="newProjDesc" class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Description</label>

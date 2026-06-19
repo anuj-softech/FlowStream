@@ -16,8 +16,16 @@ export async function createTask(
 ): Promise<CreateTaskResponse> {
   const { projectId, title, description, deadline, priority, parentId, assigneeIds, dependsOnTaskIds } = req;
 
-  if (!projectId || !title) {
+  if (!projectId || !title || !title.trim()) {
     throw new ConnectError("Project ID and title are required", Code.InvalidArgument);
+  }
+
+  if (title.length > 100) {
+    throw new ConnectError("Task title cannot exceed 100 characters", Code.InvalidArgument);
+  }
+
+  if (description && description.length > 10000) {
+    throw new ConnectError("Task description cannot exceed 10000 characters", Code.InvalidArgument);
   }
 
   const isMember = await checkProjectMembership(projectId, ctx.user.id);

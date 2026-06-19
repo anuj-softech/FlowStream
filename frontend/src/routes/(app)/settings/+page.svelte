@@ -43,9 +43,33 @@
     error = "";
     success = "";
 
+    if (editName.length > 100) {
+      error = "Name cannot exceed 100 characters";
+      return;
+    }
+
     const targetUsername = editUsername.trim();
+    if (targetUsername.length > 100) {
+      error = "Username cannot exceed 100 characters";
+      return;
+    }
     if (!/^[a-z0-9]+$/.test(targetUsername)) {
       error = "Username can only contain lowercase letters and numbers";
+      return;
+    }
+
+    if (editProfession.length > 100) {
+      error = "Profession cannot exceed 100 characters";
+      return;
+    }
+
+    if (editMobile.length > 100) {
+      error = "Mobile number cannot exceed 100 characters";
+      return;
+    }
+
+    if (editPicUrl.length > 10000) {
+      error = "Profile picture URL cannot exceed 10000 characters";
       return;
     }
 
@@ -152,11 +176,11 @@
             </div>
           {:else}
             <form onsubmit={handleSave} class="flex flex-col gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
-              <Input id="editName" label="Full Name" required placeholder="John Doe" bind:value={editName} />
-              <Input id="editUsername" label="Username" required placeholder="johndoe" bind:value={editUsername} />
-              <Input id="editProfession" label="Profession" placeholder="Software Engineer" bind:value={editProfession} />
-              <Input id="editMobile" label="Mobile Number" placeholder="+1 (555) 000-0000" bind:value={editMobile} />
-              <Input id="editPicUrl" label="Profile Picture URL" class="hidden" placeholder="https://example.com/pic.jpg" bind:value={editPicUrl} />
+              <Input id="editName" label="Full Name" required placeholder="John Doe" bind:value={editName} maxlength={100} />
+              <Input id="editUsername" label="Username" required placeholder="johndoe" bind:value={editUsername} maxlength={100} />
+              <Input id="editProfession" label="Profession" placeholder="Software Engineer" bind:value={editProfession} maxlength={100} />
+              <Input id="editMobile" label="Mobile Number" placeholder="+1 (555) 000-0000" bind:value={editMobile} maxlength={100} />
+              <Input id="editPicUrl" label="Profile Picture URL" class="hidden" placeholder="https://example.com/pic.jpg" bind:value={editPicUrl} maxlength={10000} />
 
               <div class="flex gap-3 mt-2">
                 <Button type="submit" {loading} class="flex-1 font-bold">

@@ -18,8 +18,8 @@ export async function updateInfo(req: UpdateInfoRequest, ctx: AuthenticatedConte
   } = {};
 
   if (name !== undefined) {
-    if (name.length > 50) {
-      throw new ConnectError("Name cannot exceed 50 characters", Code.InvalidArgument);
+    if (name.length > 100) {
+      throw new ConnectError("Name cannot exceed 100 characters", Code.InvalidArgument);
     }
     updateData.name = name;
   }
@@ -27,6 +27,9 @@ export async function updateInfo(req: UpdateInfoRequest, ctx: AuthenticatedConte
   if (username !== undefined) {
     if (!username || username.trim() === "") {
       throw new ConnectError("Username cannot be empty", Code.InvalidArgument);
+    }
+    if (username.length > 100) {
+      throw new ConnectError("Username cannot exceed 100 characters", Code.InvalidArgument);
     }
     if (!/^[a-z0-9]+$/.test(username)) {
       throw new ConnectError("Username can only contain lowercase letters and numbers", Code.InvalidArgument);
@@ -44,14 +47,23 @@ export async function updateInfo(req: UpdateInfoRequest, ctx: AuthenticatedConte
   }
 
   if (profilePicUrl !== undefined) {
+    if (profilePicUrl && profilePicUrl.length > 10000) {
+      throw new ConnectError("Profile picture URL cannot exceed 10000 characters", Code.InvalidArgument);
+    }
     updateData.profilePicUrl = profilePicUrl || null;
   }
 
   if (profession !== undefined) {
+    if (profession && profession.length > 100) {
+      throw new ConnectError("Profession cannot exceed 100 characters", Code.InvalidArgument);
+    }
     updateData.profession = profession || null;
   }
 
   if (mobileNumber !== undefined) {
+    if (mobileNumber && mobileNumber.length > 100) {
+      throw new ConnectError("Mobile number cannot exceed 100 characters", Code.InvalidArgument);
+    }
     updateData.mobileNumber = mobileNumber || null;
   }
 

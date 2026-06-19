@@ -61,9 +61,9 @@
       {/if}
 
       <form onsubmit={handleSubmit} class="flex flex-col gap-4">
-        <Input id="email" label="Email Address" type="email" required placeholder="name@domain.com" bind:value={email} autocomplete="username" />
+        <Input id="email" label="Email Address" type="email" required placeholder="name@domain.com" bind:value={email} maxlength={100} autocomplete="username" />
         
-        <Input id="password" label="Password" type="password" required placeholder="••••••••" bind:value={password} autocomplete="current-password" />
+        <Input id="password" label="Password" type="password" required placeholder="••••••••" bind:value={password} maxlength={100} autocomplete="current-password" />
 
         <Button type="submit" loading={auth.loading} class="w-full mt-4">
           Login

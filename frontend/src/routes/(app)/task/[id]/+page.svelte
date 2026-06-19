@@ -83,6 +83,18 @@
   });
 
   async function handleSaveChanges() {
+    if (!editTitle.trim()) {
+      error = "Task title is required";
+      return;
+    }
+    if (editTitle.length > 100) {
+      error = "Task title cannot exceed 100 characters";
+      return;
+    }
+    if (editDescription.length > 10000) {
+      error = "Task description cannot exceed 10000 characters";
+      return;
+    }
     saving = true;
     error = "";
     success = "";
@@ -175,6 +187,7 @@
             <input
               type="text"
               bind:value={editTitle}
+              maxlength="100"
               class="w-full bg-transparent border-b border-transparent hover:border-slate-200 dark:hover:border-slate-800 focus:border-primary-500 focus:outline-none text-2xl font-extrabold py-1"
               placeholder="Task Title"
             />
