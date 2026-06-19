@@ -20,7 +20,23 @@ app.get('/health', (req: Request, res: Response): void => {
   res.json({ status: 'ok' });
 });
 
-app.use(expressConnectMiddleware({ routes }));
+import { Interceptor } from "@connectrpc/connect";
+
+const errorLoggingInterceptor: Interceptor = (next) => async (req) => {
+  try {
+    return await next(req);
+  } catch (err: any) {
+    console.error("ConnectRPC Error:", err);
+    throw err;
+  }
+};
+
+app.use(expressConnectMiddleware({
+  routes,
+  options: {
+    interceptors: [errorLoggingInterceptor]
+  }
+}));
 
 // Serve SvelteKit frontend in production
 if (process.env.NODE_ENV === 'production') {

@@ -10,7 +10,21 @@ if (existsSync(".env")) {
 }
 
 const connectionString: string = `${process.env.DATABASE_URL}`;
+console.log(`Connecting to database at: ${connectionString.split('@')[1] || connectionString}`);
+
 const adapter: PrismaPg = new PrismaPg({ connectionString });
 const prisma: PrismaClient = new PrismaClient({ adapter });
+
+async function testDbConnection() {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    console.log("✅ Database connection established successfully.");
+  } catch (error) {
+    console.error("❌ Database connection failed on startup!");
+    console.error(error);
+  }
+}
+
+testDbConnection();
 
 export { prisma };
