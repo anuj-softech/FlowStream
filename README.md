@@ -5,7 +5,7 @@
 
 # FlowStream
 
-FlowStream is an enterprise-grade, low-latency collaborative project orchestration platform. Built on a contract-first architecture using Protocol Buffers and ConnectRPC, it offers robust role-based access controls, nested task hierarchies, and real-time task dependency visualization (Directed Acyclic Graphs).
+FlowStream is an collaborative project management platform. Built on a contract-first architecture using Protocol Buffers and ConnectRPC, it offers robust role-based access controls, nested task hierarchies, and real-time task dependency visualization.
 
 
 
@@ -27,8 +27,8 @@ graph TD
 ```
 
 * **Frontend (`/frontend`):** A responsive web interface built on Svelte 5, SvelteKit, and Tailwind CSS. State management is driven by Svelte 5 runes, ensuring granular and reactive DOM updates.
-* **Backend (`/backend`):** A stateless API server using Express and ConnectRPC. It handles authentication, authorization, business rules, and graph operations.
-* **Contracts (`/contract`):** Source-of-truth Protocol Buffer definitions (`.proto`) that specify API service interfaces and data models. It compiles into type-safe code shared by the frontend and backend.
+* **Backend (`/backend`):** An API server using Express and ConnectRPC. It handles authentication, authorization, business rules, and graph operations.
+* **Contracts (`/contract`):** Protocol Buffer definitions (`.proto`) that specify API service interfaces and data models. It compiles into type-safe code shared by the frontend and backend.
 * **Database Layer:** PostgreSQL managed via Prisma ORM for schema modeling, migration tracking, and relational queries.
 
 ---
@@ -50,12 +50,6 @@ graph TD
 * PostgreSQL
 * JSON Web Token (JWT) Security
 
-### Infrastructure
-* pnpm Workspaces
-* Docker and Docker Compose
-* Nginx Reverse Proxy
-
----
 
 ## Core Features
 
@@ -71,8 +65,8 @@ An interactive Kanban board supporting status changes (Backlog, Todo, In Progres
 ### Nested Subtasks
 Support for hierarchical tasks through parent-child relationships, allowing large features to be broken down into structured subtasks.
 
-### Task Dependency Management (DAG)
-Directed Acyclic Graph (DAG) structures manage blocking relationships between tasks. The backend validates mutations to prevent circular dependencies.
+### Task Dependency Management
+Graph structures manage blocking relationships between tasks. The backend validates mutations to prevent circular dependencies.
 
 ---
 
