@@ -33,9 +33,7 @@ const errorLoggingInterceptor: Interceptor = (next) => async (req) => {
 
 app.use(expressConnectMiddleware({
   routes,
-  options: {
-    interceptors: [errorLoggingInterceptor]
-  }
+  interceptors: [errorLoggingInterceptor]
 }));
 
 // Serve SvelteKit frontend in production
